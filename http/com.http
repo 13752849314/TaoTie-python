@@ -1,0 +1,41 @@
+###
+POST http://127.0.0.1:5000/login
+Content-Type: application/json
+
+{
+  "username": "hg",
+  "password": "654321",
+  "code": "thb8x",
+  "token": "fcc74712-c498-442b-b1e7-8f4c99fe678c"
+}
+
+###
+GET http://127.0.0.1:5000/image
+#Authorization: 123
+
+###
+GET http://127.0.0.1:5000/login
+
+
+###
+POST http://127.0.0.1:5000/register
+Content-Type: application/json
+
+{
+  "username": "AoOu",
+  "password": "654321",
+  "phone": "13752849314",
+  "email": "371575373@qq.com",
+  "sex": "男",
+  "birthday": "1999/06/02"
+}
+
+###
+POST http://127.0.0.1:5000/user/add
+Content-Type: application/json
+Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NjA4OTMzNjAsInVzZXJuYW1lIjoiaGcifQ.CPOQXZKoGfwUKVjCxl5D-0h3uPi4v70SsqrDNsCIu_c
+
+
+{
+  "username": "hg"
+}
