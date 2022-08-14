@@ -61,7 +61,7 @@ def check(to: Token, minute):
         if time.time() - i.get('time') < 60 * minute:
             tmp.append(i)
         else:
-            print('token->', i.get('token'), '-> out of date!')
+            # print('token->', i.get('token'), '-> out of date!')
             token = i.get('token')
             tokens_tmp.append(token)
     D = to.mes.copy()

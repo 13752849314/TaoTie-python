@@ -39,3 +39,20 @@ Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NjA4OTMzNjAsInVz
 {
   "username": "hg"
 }
+
+###
+GET http://127.0.0.1:5000/user/get_userInfo
+Content-Type: application/json
+
+{
+  "username": "hg"
+}
+
+###
+GET http://127.0.0.1:5000/user/userInfo
+Content-Type: application/json
+Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NjEwNjI1MzcsInVzZXJuYW1lIjoiaGcifQ.QjICBf0WxcpvqIq6UGQ7-dAx0tnertzne92tpilLHhk
+
+{
+  "username": "hg"
+}
