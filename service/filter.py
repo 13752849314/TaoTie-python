@@ -1,11 +1,11 @@
 # Created by 敖鸥 at 2022/8/9
 import functools
+
 from flask import request, jsonify
-from my_jwt import a
-from result import Result
-from service.dbutils import (select_by_name,
-                             insert)
+
 from my_jwt import MyJWT, a
+from result import Result
+from service.dbutils import (select_by_name)
 
 
 def code_filter(func):
@@ -52,11 +52,11 @@ def username_filter(func):
         user = select_by_name(username)
         if user is not None:
             return jsonify(Result.FAIL('用户名已经存在!').__dict__)
-        else:
-            e = insert(key)
-            # print('e=', e)
-            if e is Exception:
-                return jsonify(Result.FAIL('系统出错!').__dict__)
+        # else:
+        #     e = insert(key)
+        #     # print('e=', e)
+        #     if e is Exception:
+        #         return jsonify(Result.FAIL('系统出错!').__dict__)
         return func(*args, **kwargs)
 
     return inner
@@ -70,11 +70,12 @@ def jwt_filter(func):
             return Result.FAIL('用户未登录!').build()
         else:
             if authorization in a.my_jwt:
-                Bo = MyJWT.verify_jwt(authorization)
-                if Bo is None:
+                bo = MyJWT.verify_jwt(authorization)
+                if bo is None:
                     return Result.FAIL('JWT错误!').build()
                 else:
-                    name = Bo.get('username', '')
+                    name = bo.get('username', '')
+                    # print('name=', name, 'json=', request.json.get('username'))
                     if name != request.json.get('username'):
                         return Result.FAIL('越权!').build()
             else:

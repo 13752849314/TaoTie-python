@@ -5,7 +5,8 @@ from service.image import create_image
 from result import Result
 from my_jwt import a, MyJWT
 from service.filter import (code_filter, username_password_filter,
-                            username_filter)
+                            username_filter, jwt_filter)
+from service.dbutils import insert
 
 com = Blueprint('com', __name__)
 
@@ -36,4 +37,18 @@ def login():
 @com.route('/register', methods=['POST'])
 @username_filter
 def register():
+    key = request.json
+    key.pop('password2')
+    e = insert(**key)
+    if e is Exception:
+        return Result.FAIL('系统出错!').build()
     return jsonify(Result.SUCCESS('注册成功!').__dict__)
+
+
+@com.route('/logout', methods=['POST'])
+@jwt_filter
+def logout():
+    authorization = request.headers.get('Authorization', '')
+    if authorization in a.my_jwt:
+        a.my_jwt.remove(authorization)
+    return Result.SUCCESS('退出成功!').build()

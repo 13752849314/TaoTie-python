@@ -1,5 +1,6 @@
 # Created by 敖鸥 at 2022/8/9
-import pymysql, time
+import pymysql
+import time
 from dbutils.pooled_db import PooledDB
 
 print('db init start! ->', time.time())

@@ -30,7 +30,19 @@ class User:
     def format_date(cls, birthday):
         if birthday is None:
             return time.strftime('%Y-%m-%d', time.gmtime())
-        elif birthday is str:
+        elif type(birthday) == str:
             return birthday
         else:
             return birthday.strftime('%Y-%m-%d')
+
+    def reset_info(self,
+                   phone='',
+                   email='',
+                   sex='',
+                   birthday=None
+                   ):
+        self.phone = phone,
+        self.email = email
+        self.sex = sex,
+        self.birthday = birthday
+        return self
