@@ -20,6 +20,7 @@ def select_by_name(name):
     sql = 'select * from users where username=%s'
     num = cursor.execute(sql, [name])
     if num == 0:
+        close(cursor, conn)
         return None
     result = cursor.fetchone()
 
@@ -55,6 +56,52 @@ def update_info(user: User):
     try:
         num = cursor.execute(sql, [user.phone, user.email, user.sex, user.birthday, user.id])
         conn.commit()
+        return num
+    except Exception as e:
+        conn.rollback()
+        return e
+    finally:
+        close(cursor, conn)
+
+
+# bills
+
+def get_bills_by_username(username):
+    conn = get_connect()
+    cursor = conn.cursor()
+    sql = 'select * from bills where Username=%s order by Time DESC'
+    try:
+        num = cursor.execute(sql, [username])
+        result = cursor.fetchall()
+        if num == 0:
+            return []
+        return result
+    except Exception as e:
+        return e
+    finally:
+        close(cursor, conn)
+
+
+# common
+
+def select(sql, args):
+    conn = get_connect()
+    cursor = conn.cursor()
+    try:
+        num = cursor.execute(sql, args)
+        result = cursor.fetchall()
+        return result, num
+    except Exception as e:
+        return e
+    finally:
+        close(cursor, conn)
+
+
+def insert_and_update(sql, args):
+    conn = get_connect()
+    cursor = conn.cursor()
+    try:
+        num = cursor.execute(sql, args)
         return num
     except Exception as e:
         conn.rollback()

@@ -2,7 +2,8 @@
 from flask import Blueprint, request
 from result import Result
 from service.filter import jwt_filter
-from service.dbutils import select_by_name, update_info
+from service.dbutils import select_by_name, update_info, insert_and_update, get_bills_by_username
+from utils import format_bills
 
 user = Blueprint('user', __name__)
 
@@ -39,7 +40,21 @@ def reset_information():
 def reset_password():
     username = request.json.get('username')
     password = request.json.get('new_pw')
-    user1 = select_by_name(username)
-    user1.password = password
-    
-    pass
+    sql = 'update users set password=%s where username=%s'
+    num = insert_and_update(sql, [password, username])
+    if num is Exception:
+        return Result.FAIL('修改失败!').build()
+    else:
+        return Result.SUCCESS('修改成功!').build()
+
+
+@user.route('/gb', methods=['GET'])
+@jwt_filter
+def get_bills():
+    username = request.json.get('username')
+    result = get_bills_by_username(username)
+    if result is Exception:
+        return Result.FAIL('获取失败!').build()
+    else:
+        result = format_bills(result)
+        return Result.SUCCESS('获取成功!').push('bills', result).build()
